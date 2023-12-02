@@ -1,0 +1,119 @@
+/* Header styling */
+.fc-toolbar {
+  background-color: #2196F3;
+  /* Blue header background */
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  font-size: large;
+  transition: background-color 0.3s ease;
+  /* Smooth header color transition */
+}
+
+/* Button styling */
+.fc-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  /* Smooth button color transition */
+}
+
+/* Event styling */
+.fc-event {
+  border: none;
+  border-radius: 8px;
+  background-color: #FFC107;
+  /* Yellow background for events */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  color: #333;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+  /* Smooth background color transition */
+  transform: scale(1);
+}
+
+/* Event title styling */
+.fc-event .fc-title {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+/* Time slot styling */
+.fc-time-grid-event {
+  border-radius: 4px;
+}
+
+/* Day header styling */
+.fc-col-header-cell {
+  background-color: #2196F3;
+  /* Blue header background */
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  font-size: large;
+  transition: background-color 0.3s ease;
+  /* Smooth header color transition */
+}
+
+/* Today cell styling */
+.fc-today {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Selected cell styling */
+.fc-highlight {
+  background-color: #f0f0f0;
+  opacity: 0.5;
+}
+
+/* Hover styling */
+.fc-day-grid-event:hover,
+.fc-list-item:hover,
+.fc-list-heading:hover {
+  background-color: #FF9800;
+  /* Orange background on hover */
+}
+
+/* Event image styling */
+.fc-event img {
+  max-width: 50px;
+  height: auto;
+  border-radius: 50%;
+  margin-right: 10px;
+  transition: transform 0.3s ease,
+    /* Smooth image scale transition */
+    filter 0.3s ease;
+  /* Smooth filter transition for brightness */
+}
+
+/* Improve readability of event text */
+.fc-title {
+  font-weight: bold;
+}
+
+/* Add shadow to events for depth */
+.fc-event {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Add a scale effect on event hover */
+.fc-event:hover {
+  transform: scale(1.05);
+  /* Scale event on hover */
+}
+
+/* Grow image on hover */
+.fc-event:hover img {
+  transform: scale(1.2);
+  /* Grow image on hover */
+  filter: brightness(1.2);
+  /* Brighten image on hover */
+}
