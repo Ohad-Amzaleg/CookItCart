@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import DragFood from "./DragFood";
 import { useDrag, DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { textAlign } from "@mui/system";
-import { set } from "date-fns";
 
 interface FloatingBarCompProps {
   selectedItems: any;
@@ -53,7 +51,13 @@ function FloatingBarComp({
         <div className="selected-items" style={{ overflowY: handleOverFlow }}>
           {selectedItems.map((item: any, index: number) => {
             if (item.servings > 0) {
-              return (<DragFood handleRemove={handleRemove} key={index} foodItem={item} />)
+              return (
+                <DragFood
+                  handleRemove={handleRemove}
+                  key={index}
+                  foodItem={item}
+                />
+              );
             }
           })}
         </div>

@@ -10,6 +10,9 @@ import { utcToZonedTime } from "date-fns-tz";
 import Schedule from "../../Classes/Schedule";
 import { EventDragStopArg } from "@fullcalendar/interaction";
 import { v4 as uuidv4 } from "uuid";
+import CartChart from "./CartChart";
+import FoodItem from "../../Classes/FoodItem";
+import { Typography } from "@mui/material";
 
 interface ScheduleCompProps {
   schedule: Schedule;
@@ -23,10 +26,12 @@ export default function ScheduleComp({
 }: ScheduleCompProps) {
   const [items, setItems] = useState(null) as any; // Initialize the events state
   const [calendar, setCalendar] = useState(null) as any;
+  const [nutrients, setNutrients] = useState(null) as any;
 
-  const fetchSchedule = async () => {
+  const fetchEvents = async () => {
     try {
-      const res = await schedule.fetchSchedule();
+      console.log("fetching schedule");
+      const res = await schedule.fetchEvents();
       schedule.events = res ? res : [];
       setItems(schedule.events);
     } catch (err) {
@@ -34,16 +39,51 @@ export default function ScheduleComp({
     }
   };
 
-  const updateSchedule = async () => {
+  const fetchNutrients = async () => {
     try {
-      await schedule.updateSchedule(items);
+      const res = await schedule.fetchNutrition();
+      console.log(res);
+      setNutrients(res);
     } catch (err) {
       console.log(err);
     }
   };
 
+  const updateSchedule = async () => {
+    try {
+      await schedule.updateEvents(items);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const updateNutrients = async (food: FoodItem) => {
+    console.log(food.servings);
+    const mergedNutrients = { ...nutrients };
+    // Merge new nutrients with existing nutrients based on your conditions
+    for (const key in food.nutrition) {
+      if (key === "updated_at") continue;
+
+      if (mergedNutrients[key]) {
+        // Decide how to combine or update the values (e.g., addition, concatenation, etc.)
+        // For example, here I'm adding the values together
+        mergedNutrients[key] += food.nutrition[key] / food.servings;
+      } else {
+        // If the key doesn't exist, just set the value
+        mergedNutrients[key] = food.nutrition[key] / food.servings;
+      }
+    }
+    try {
+      await schedule.updateNutrition(mergedNutrients);
+    } catch (err) {
+      console.log(err);
+    }
+    setNutrients(mergedNutrients);
+  };
+
   useEffect(() => {
-    fetchSchedule();
+    fetchEvents();
+    fetchNutrients();
   }, []);
 
   useEffect(() => {
@@ -122,7 +162,8 @@ export default function ScheduleComp({
           start: formatDateToISO(newDate),
         },
       ]);
-      updateServings(item);
+      updateNutrients(item.foodItem);
+      // updateServings(item);
     },
   });
 
@@ -183,6 +224,16 @@ export default function ScheduleComp({
     button.style.marginBottom = "6px";
     button.className = "remove-item";
     button.onclick = () => {
+      const food = items.find((item: any) => item.id === eventInfo.event.id);
+
+      if (food) {
+        for (const key in food.nutrition) {
+          if (key === "updated_at") continue;
+          if (Object.prototype.hasOwnProperty.call(food.nutrition, key)) {
+            nutrients[key] -= food.nutrition[key] / food.servings;
+          }
+        }
+      }
       setItems((prev: any) => {
         return prev.filter((item: any) => {
           return item.id !== eventInfo.event.id;
@@ -201,8 +252,23 @@ export default function ScheduleComp({
   };
 
   return (
-    <div ref={drop}>
-      <div id="calendar" style={{ width: "100vw", marginLeft: "20px" }}></div>
+    <div>
+      <div ref={drop}>
+        <div id="calendar" style={{ width: "100vw", marginLeft: "20px" }}></div>
+      </div>
+      <div style={{ width: "80vw", marginLeft: "20px" }}>
+        <Typography
+          variant="h3"
+          sx={{
+            textAlign: "left",
+            paddingTop: 2,
+            fontWeight: "bold",
+          }}
+        >
+          Weekly Nutrition
+        </Typography>
+        <CartChart nutrients={nutrients}></CartChart>
+      </div>
     </div>
   );
 }

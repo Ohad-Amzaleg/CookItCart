@@ -18,7 +18,6 @@ interface MultiCardCompProps {
   foodItem: FoodItem;
   cart: Cart;
   setSelectedItems: React.Dispatch<React.SetStateAction<any>>;
-
 }
 
 export default function MultiCardComp({
@@ -46,7 +45,7 @@ export default function MultiCardComp({
   };
 
   const handleCartClick = () => {
-    cart.addToCart({ ...foodItem });
+    cart.addToCart(foodItem);
     setSelectedItems((prev: any) => [...prev, foodItem]);
   };
 

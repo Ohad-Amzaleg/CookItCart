@@ -9,7 +9,7 @@ export default class FoodItem {
   video: string;
   category: string;
   rating: { score: number };
-  nutrition: Array<any>;
+  nutrition: Record<string, number>;
   timeToCook: number;
 
   constructor(
@@ -23,7 +23,7 @@ export default class FoodItem {
     video: string,
     category: string,
     rating: { score: number },
-    nutrition: Array<any>,
+    nutrition: Record<string, number>,
     timeToCook: number
   ) {
     this.id = id;
