@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Container, styled } from "@mui/system";
+import { styled } from "@mui/system";
 import NavBarComp from "./NavBarComp";
 import AppBarComp from "../AppBar/AppBarComp";
 import FloatingBarComp from "./FloatingBarComp";
 import User from "../../Classes/User";
+import Cart from "../../Classes/Cart";
 
 // ################ Styled Components ################
 
@@ -38,6 +39,7 @@ interface HomePageProps {
   component: any;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setPageLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  cart: Cart;
 }
 
 // ################ Functions ################
@@ -51,6 +53,7 @@ function HomePage({
   component,
   setLoading,
   setPageLoading,
+  cart,
 }: HomePageProps) {
   return (
     <div style={containerStyle}>
@@ -62,7 +65,7 @@ function HomePage({
         setLoading={setLoading}
         setPageLoading={setPageLoading}
       />
-      <NavBarComp />
+      <NavBarComp cart={cart} />
       {component}
       {
         <FloatingBarComp

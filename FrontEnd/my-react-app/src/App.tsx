@@ -20,6 +20,9 @@ import User from "./Classes/User";
 import Schedule from "./Classes/Schedule";
 import Recipe from "./Classes/Recipe";
 import { BASE_URL } from "./constants";
+import WelcomeComp from "./Components/Home/WelcomeComp";
+import MyAccountComp from "./Components/AppBar/MyAccountComp"; 
+
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -100,6 +103,7 @@ function App() {
         setLoading={setLoading}
         component={component}
         setPageLoading={setPageLoading}
+        cart = {cart}
       />
     );
   };
@@ -131,7 +135,7 @@ function App() {
                 element={
                   <ProtectedRoute
                     user={user}
-                    element={homePageGenerator(<div> hello </div>)}
+                    element={homePageGenerator(<WelcomeComp username={user.username} />)}
                   />
                 }
               />
@@ -176,8 +180,18 @@ function App() {
                     )}
                   />
                 }
-              />
-            </Routes>
+                />
+                <Route
+                  path="/HomePage/myaccount"
+                  element={
+                    <ProtectedRoute
+                      user={user}
+                      element={<MyAccountComp userData={user} />}
+                    />
+                  }
+                />
+                
+              </Routes>
             <ToastContainer position="top-center" autoClose={3000} />
           </Router>
         </>

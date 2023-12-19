@@ -73,6 +73,10 @@ export default function PrimarySearchAppBar({
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleMyAccount = () => {
+    navigate("/HomePage/myaccount");
+  }
+
   const handleLogout = () => {
     // Delete the token cookie by setting its expiration date to a date in the past
     const expirationDate = new Date("2000-01-01"); // A date in the past
@@ -107,8 +111,7 @@ export default function PrimarySearchAppBar({
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMyAccount}>My account</MenuItem>
       <MenuItem onClick={handleLogout}> Logout </MenuItem>
     </Menu>
   );
@@ -116,7 +119,7 @@ export default function PrimarySearchAppBar({
   const renderPopUp = (
     <>
       {showSignUp && (
-        <SignUpComp showSignUp={showSignUp} toggleSignUp={toggleSignUp} />
+        <SignUpComp showSignUp={showSignUp} toggleSignUp={toggleSignUp} toggleLogin={toggleLogin} />
       )}
       {showLogin && (
         <LoginComp
@@ -124,6 +127,7 @@ export default function PrimarySearchAppBar({
           userData={userData}
           showLogin={showLogin}
           toggleLogin={toggleLogin}
+          toggleSignUp={toggleSignUp}
           setPageLoading={setPageLoading}
         />
       )}
@@ -148,14 +152,6 @@ export default function PrimarySearchAppBar({
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
@@ -166,18 +162,6 @@ export default function PrimarySearchAppBar({
           </Badge>
         </IconButton>
         <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
       </MenuItem>
       <MenuItem onClick={handleLogout}>
         <IconButton
@@ -224,15 +208,6 @@ export default function PrimarySearchAppBar({
           ) : (
             <>
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                <IconButton
-                  size="large"
-                  aria-label="show 4 new mails"
-                  color="inherit"
-                >
-                  <Badge badgeContent={4} color="error">
-                    <MailIcon />
-                  </Badge>
-                </IconButton>
                 <IconButton
                   size="large"
                   aria-label="show 17 new notifications"

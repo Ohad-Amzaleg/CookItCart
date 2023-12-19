@@ -2,7 +2,6 @@ import { BASE_URL } from "../constants";
 import FoodItem  from "./FoodItem";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import { id } from "date-fns/locale";
 
 export default class Recipes {
   userId: number;

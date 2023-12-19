@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import LockIcon from "@mui/icons-material/Lock";
-import InputAdornment from "@mui/material/InputAdornment";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,7 +9,6 @@ import { errors } from "../../Constants/Errors";
 import { StyledForm, textFieldStyle } from "../../Constants/Styles";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import { styled } from "@mui/system";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
@@ -25,10 +22,12 @@ import Container from "@mui/material/Container";
 const defaultTheme = createTheme();
 interface SignUpCompProps {
   showSignUp: boolean;
-  toggleSignUp: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleLogin: () => void;
+  toggleSignUp: () => void;
+
 }
 
-function SignUpComp({ showSignUp, toggleSignUp }: SignUpCompProps) {
+function SignUpComp({ showSignUp, toggleSignUp,toggleLogin }: SignUpCompProps) {
   const navigate = useNavigate();
   const [emailColor, setEmailColor] = useState("");
   const [passColor, setpassColor] = useState("");
@@ -81,6 +80,7 @@ function SignUpComp({ showSignUp, toggleSignUp }: SignUpCompProps) {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    console.log(formData);
 
     try {
       await axios.post("http://localhost:3080/api/users/register", formData, {
@@ -145,44 +145,45 @@ function SignUpComp({ showSignUp, toggleSignUp }: SignUpCompProps) {
                     <Grid item xs={12} sm={6}>
                       <TextField
                         autoComplete="given-name"
-                        name="firstName"
+                        name="username"
+                        onChange={handleInputChange}
                         required
                         fullWidth
-                        id="firstName"
-                        label="First Name"
+                        id="username"
+                        label="Full Name"
                         autoFocus
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="lastName"
-                        label="Last Name"
-                        name="lastName"
-                        autoComplete="family-name"
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
                         required
                         fullWidth
+                        onChange={handleInputChange}
                         id="email"
                         label="Email Address"
                         name="email"
                         autoComplete="email"
+                        style={{ color: emailColor }}
                       />
+                    </Grid>
+                    <Grid item xs={12} style={{ color: 'red' }}>
+                      {emailError}
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
                         required
                         fullWidth
+                        onChange={handleInputChange}
                         name="password"
                         label="Password"
                         type="password"
                         id="password"
                         autoComplete="new-password"
+                        
                       />
+                    </Grid>
+                         <Grid item xs={12} style={{color:'red'}}>
+                      {passError}
                     </Grid>
                     <Grid item xs={12}>
                       <FormControlLabel
@@ -203,9 +204,13 @@ function SignUpComp({ showSignUp, toggleSignUp }: SignUpCompProps) {
                   </Button>
                   <Grid container justifyContent="flex-end">
                     <Grid item>
-                      <Link href="#" variant="body2">
-                        Already have an account? Sign in
-                      </Link>
+                        <Button onClick={() => {
+                          toggleSignUp()
+                          toggleLogin()
+                        }
+                        } color="primary">
+                          Already have an account? Sign in
+                        </Button>
                     </Grid>
                   </Grid>
                 </Box>

@@ -1,18 +1,18 @@
-import React from 'react';
 import ExploreIcon from '@mui/icons-material/Explore';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Badge } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import FoodComp from './FoodComp';
-import ScheduleComp from './ScheduleComp';
-import CartComp from './CartComp';
 import { AppBar, Toolbar } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import Cart from '../../Classes/Cart';
 
-const NavBarComp = () => {
+interface NavBarCompProps {
+	cart: Cart;
+}
+
+const NavBarComp =({cart}:NavBarCompProps) => {
 	const navigate = useNavigate();
 
 	const handleFood = () => {
@@ -50,7 +50,7 @@ const NavBarComp = () => {
 					</Badge>
 				</Button>
 				<Button sx={buttonStyle} onClick={handleCart}>
-					<Badge badgeContent={1} color='error'>
+					<Badge badgeContent={cart.items.length > 0 ?cart.items.length:null} color='error'>
 						<ShoppingCartIcon />
 						<Typography>Cart</Typography>
 					</Badge>

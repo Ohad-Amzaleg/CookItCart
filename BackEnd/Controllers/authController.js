@@ -27,7 +27,7 @@ const validateUser = asyncHandler(async (req, res) => {
 
 	//Update the verified status
 	await users.updateOne({ email: email }, { $set: { verified: true } });
-	res.status(200).json({ message: 'User verified successfully' });
+	res.status(200).json({ message: 'User verified successfully', verified: true });
 });
 
 //@desc resend verification email

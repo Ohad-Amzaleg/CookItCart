@@ -1,32 +1,32 @@
-const express = require("express");
+const express = require('express');
 
 const app = express();
 
-var bodyParser = require("body-parser");
+var bodyParser = require('body-parser');
 
-const cookieParser = require("cookie-parser");
+const cookieParser = require('cookie-parser');
 
-const { dbConnect } = require("./Config/dbConnection");
+const { dbConnect } = require('./Config/dbConnection');
 
-const authRoutes = require("./Routes/authRoutes");
+const authRoutes = require('./Routes/authRoutes');
 
-const usersRoutes = require("./Routes/usersRoutes");
+const usersRoutes = require('./Routes/usersRoutes');
 
-const recipesRoutes = require("./Routes/recipesRoutes");
+const recipesRoutes = require('./Routes/recipesRoutes');
 
-const scheduleRoutes = require("./Routes/scheduleRoutes");
+const scheduleRoutes = require('./Routes/scheduleRoutes');
 
-const dotenv = require("dotenv").config();
+require('dotenv').config();
 
-const cors = require("cors");
+const cors = require('cors');
 
-const errorHandler = require("./Middleware/errorHandler");
+const errorHandler = require('./Middleware/errorHandler');
 
 // Define CORS options
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace with your desired origin(s)
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // If you're using cookies or authentication
+	origin: 'http://localhost:3000', // Replace with your desired origin(s)
+	methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+	credentials: true, // If you're using cookies or authentication
 };
 
 const port = 3080;
@@ -39,16 +39,16 @@ app.use(cors(corsOptions));
 app.use(errorHandler);
 
 // ########################### Routes ##########################
-app.use("/api/users", usersRoutes);
+app.use('/api/users', usersRoutes);
 
-app.use("/api/auth", authRoutes);
+app.use('/api/auth', authRoutes);
 
-app.use("/api/recipes", recipesRoutes);
+app.use('/api/recipes', recipesRoutes);
 
-app.use("/api/schedule", scheduleRoutes);
+app.use('/api/schedule', scheduleRoutes);
 
-app.use("/api/cart", scheduleRoutes);
+app.use('/api/cart', scheduleRoutes);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+	console.log(`Example app listening on port ${port}`);
 });

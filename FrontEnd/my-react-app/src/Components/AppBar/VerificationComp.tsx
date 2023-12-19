@@ -50,7 +50,6 @@ function VerificationComp({ setUser, userData }: VerificationCompProps) {
   };
 
   const validateCode = async (code: string) => {
-    console.log(code);
     try {
       await axios
         .post(

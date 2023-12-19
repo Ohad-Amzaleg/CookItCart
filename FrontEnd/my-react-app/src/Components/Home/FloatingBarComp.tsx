@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DragFood from "./DragFood";
-import { useDrag, DndProvider, useDrop } from "react-dnd";
+import {  DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { textAlign } from "@mui/system";
-import { set } from "date-fns";
 
 interface FloatingBarCompProps {
   selectedItems: any;
@@ -29,6 +27,10 @@ function FloatingBarComp({
     <div className={`floating-bar ${folded ? "folded" : ""}`}>
       <div style={{}}>
         <h3>Selected Items</h3>
+        {!folded && (
+          <p style={{ fontSize: "12px", color: "#555", marginBottom: "8px" }}>
+            Drag items to the schedule to plan your meals!
+          </p>)}
         <button
           style={{
             position: "absolute",
@@ -36,7 +38,7 @@ function FloatingBarComp({
             right: 0,
             padding: "8px 12px",
             borderRadius: "6px",
-            backgroundColor: "#1877f2" /* Facebook-like blue */,
+            backgroundColor: "#1877f2" ,
             color: "#fff",
             border: "none",
             cursor: "pointer",
@@ -53,7 +55,13 @@ function FloatingBarComp({
         <div className="selected-items" style={{ overflowY: handleOverFlow }}>
           {selectedItems.map((item: any, index: number) => {
             if (item.servings > 0) {
-              return (<DragFood handleRemove={handleRemove} key={index} foodItem={item} />)
+              return (
+                <DragFood
+                  handleRemove={handleRemove}
+                  key={index}
+                  foodItem={item}
+                />
+              );
             }
           })}
         </div>

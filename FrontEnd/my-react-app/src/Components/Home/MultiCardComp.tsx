@@ -18,7 +18,6 @@ interface MultiCardCompProps {
   foodItem: FoodItem;
   cart: Cart;
   setSelectedItems: React.Dispatch<React.SetStateAction<any>>;
-
 }
 
 export default function MultiCardComp({
@@ -46,8 +45,19 @@ export default function MultiCardComp({
   };
 
   const handleCartClick = () => {
-    cart.addToCart({ ...foodItem });
-    setSelectedItems((prev: any) => [...prev, foodItem]);
+    //Add the meal ingredient to the cart
+    cart.addToCart(foodItem);
+    setSelectedItems((prev: any) => {
+      //Check if the item is already in the cart
+      const item = prev.find((item: any) => item.id === foodItem.id);
+      if (item) {
+        //If item is in the cart, update the servings
+        item.servings += foodItem.servings;
+        return [...prev];
+    }
+      //If item is not in the cart, add it to the cart
+      return [...prev, foodItem];
+    });
   };
 
   return (
