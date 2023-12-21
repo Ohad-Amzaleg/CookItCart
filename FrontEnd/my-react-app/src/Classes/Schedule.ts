@@ -57,6 +57,7 @@ export default class Schedule {
   }
 
   addNutrients(item: FoodItem) {
+    console.log('adding nutrients for item: ', item)
     const nutrition = item.nutrition as any
     for (const key in nutrition) {
       if (key in this.weeklyNutrition) {
@@ -70,7 +71,11 @@ export default class Schedule {
     const nutrition = item.nutrition as any
     for (const key in nutrition) {
       if (key in this.weeklyNutrition) {
-        this.weeklyNutrition[key] -= nutrition[key]
+        if (this.weeklyNutrition[key] < nutrition[key]) {
+          delete this.weeklyNutrition[key]
+        } else {
+          this.weeklyNutrition[key] -= nutrition[key]
+        }
       }
     }
   }

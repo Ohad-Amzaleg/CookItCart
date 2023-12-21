@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Calendar } from '@fullcalendar/core'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { ItemTypes } from './DragFood'
 import { useDrop } from 'react-dnd'
-import { format, set } from 'date-fns'
+import { format } from 'date-fns'
 import '../../custom-calendar-theme.css' // Import your custom theme CSS
 import { utcToZonedTime } from 'date-fns-tz'
 import Schedule from '../../Classes/Schedule'
 import { EventDragStopArg } from '@fullcalendar/interaction'
 import { v4 as uuidv4 } from 'uuid'
 import CartChart from './CartChart'
-import FoodItem from '../../Classes/FoodItem'
 import { Button, Typography } from '@mui/material'
 
 interface ScheduleCompProps {
   schedule: Schedule
-  setSelectedItems: React.Dispatch<React.SetStateAction<any>>
 }
 
-export default function ScheduleComp({ schedule }: ScheduleCompProps) {
+function ScheduleComp({ schedule }: ScheduleCompProps) {
   const [items, setItems] = useState(schedule.getEvents) as any // Initialize the events state
   const [calendar, setCalendar] = useState(null) as any
   const [nutrients, setNutrients] = useState(schedule.getNutrition) as any
@@ -52,31 +50,10 @@ export default function ScheduleComp({ schedule }: ScheduleCompProps) {
     }
   }
 
-  // const addNutrients = (item: FoodItem) => {
-  //   const nutrition = item.nutrition as any
-  //   for (const key in nutrition) {
-  //     setNutrients((prev: any) => {
-  //       if (key in prev) {
-  //         prev[key] += nutrition[key]
-  //       } else if (key !== 'updated_at') {
-  //         prev[key] = nutrition[key]
-  //       }
-  //       return { ...prev }
-  //     })
-  //   }
-  // }
-
-  // const removeNutrients = (item: FoodItem) => {
-  //   const nutrition = item.nutrition as any
-  //   for (const key in nutrition) {
-  //     setNutrients((prev: any) => {
-  //       if (key in prev) {
-  //         prev[key] -= nutrition[key]
-  //       }
-  //       return { ...prev }
-  //     })
-  //   }
-  // }
+  const handleNutrientsReset = () => {
+    schedule.setNutrition = {}
+    setNutrients({})
+  }
 
   useEffect(() => {
     fetchEvents()
@@ -151,6 +128,7 @@ export default function ScheduleComp({ schedule }: ScheduleCompProps) {
       newDate.setDate(currentDay)
       newDate.setHours(timeSlot, 0, 0, 0)
 
+      // ...
       //Add the nutrients to the schedule Nutrition
       schedule.addNutrients(item.foodItem)
       //Add the event to the schedule
@@ -163,8 +141,8 @@ export default function ScheduleComp({ schedule }: ScheduleCompProps) {
         start: formatDateToISO(newDate),
       })
       //Update the schedule
-      await setItems([...schedule.getEvents])
-      await setNutrients({ ...schedule.getNutrition })
+      setItems([...schedule.getEvents])
+      setNutrients({ ...schedule.getNutrition })
     },
   })
 
@@ -243,42 +221,35 @@ export default function ScheduleComp({ schedule }: ScheduleCompProps) {
   }
 
   return (
-    <div>
-      <div
-        style={{
-          width: '80vw',
-          marginLeft: '20px',
-          display: 'flex',
-          flexDirection: 'row',
-        }}
-      >
-        <Typography
-          variant="h3"
-          sx={{
-            textAlign: 'left',
-            paddingTop: 2,
-            fontWeight: 'bold',
-          }}
-        >
+    <div style={{ padding: '20px' }}>
+      <div style={{ marginBottom: '20px' }}>
+        <Typography variant="h3" fontWeight="bold">
           Weekly Schedule
         </Typography>
       </div>
+
       <div ref={drop}>
-        <div id="calendar" style={{ width: '100vw', marginLeft: '20px' }}></div>
+        <div id="calendar" style={{ width: '100%', marginLeft: '20px' }}></div>
       </div>
-      <div style={{ width: '80vw', marginLeft: '20px' }}>
-        <Typography
-          variant="h3"
-          sx={{
-            textAlign: 'left',
-            paddingTop: 2,
-            fontWeight: 'bold',
-          }}
-        >
-          Weekly Nutrition
-        </Typography>
-        <CartChart nutrients={nutrients}></CartChart>
+
+      <div style={{ marginTop: '20px', textAlign: 'center' }}>
+        <div style={{ marginBottom: '10px' }}>
+          <Typography variant="h4" fontWeight="bold">
+            Weekly Nutrition
+          </Typography>
+          {Object.keys(nutrients).length > 0 && (
+            <Button variant="contained" onClick={handleNutrientsReset}>
+              Clear Nutrients
+            </Button>
+          )}
+        </div>
+
+        <div style={{ width: '60%', margin: '0 auto' }}>
+          <CartChart nutrients={nutrients} />
+        </div>
       </div>
     </div>
   )
 }
+
+export default ScheduleComp

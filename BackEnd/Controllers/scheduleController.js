@@ -10,7 +10,7 @@ const mutex = new Semaphore(1)
 const getEvents = asyncHandler(async (req, res) => {
   const currSchedule = await schedule.findOne({ email: req.user.email })
   if (!currSchedule) {
-    res.status(400).json({ error: 'No schedule found' })
+    return res.status(400).json({ error: 'No schedule found' })
   }
   res.status(200).json({ events: currSchedule.events })
 })
@@ -21,7 +21,7 @@ const getEvents = asyncHandler(async (req, res) => {
 const getNutrition = asyncHandler(async (req, res) => {
   const currSchedule = await schedule.findOne({ email: req.user.email })
   if (!currSchedule) {
-    res.status(400).json({ error: 'No schedule found' })
+    return res.status(400).json({ error: 'No schedule found' })
   }
   res.status(200).json({ nutrition: currSchedule.weeklyNutrition })
 })
@@ -52,7 +52,7 @@ const updateSchedule = asyncHandler(async (req, res) => {
   //Save to db
   try {
     await currentSchedule.save()
-    res.status(200).json({ schedule: currentSchedule })
+    return res.status(200).json({ schedule: currentSchedule })
   } catch (error) {
     res.status(400).json({ error: 'Error saving schedule' })
   }

@@ -67,7 +67,7 @@ const loginUser = asyncHandler(async (req, res) => {
 //@access Public
 const addUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body
-  console.log(req.body)
+
   if (!username || !email || !password) {
     return res.status(400).json({ error: 'Invalid credentials' })
   }

@@ -54,13 +54,11 @@ export default class User {
   //@desc register user
   //@return type string
   //@access private
-  async userRegister(user: any) {
+  async userRegister(formData:any) {
     try {
       const res = await axios.post(
-        `${BASE_URL}/api/users/register`,
-        { user: user },
-        { withCredentials: true }
-      );
+        `${BASE_URL}/api/users/register`,formData,
+        { withCredentials: true })
       return res.data.message;
     } catch (err: any) {
       console.log(err);

@@ -18,18 +18,21 @@ import Checkbox from '@mui/material/Checkbox'
 import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
+import User from '../../Classes/User'
 
 const defaultTheme = createTheme()
 interface SignUpCompProps {
   showSignUp: boolean
   toggleLogin: () => void
   toggleSignUp: () => void
+  userData: User
 }
 
 function SignUpComp({
   showSignUp,
   toggleSignUp,
   toggleLogin,
+  userData,
 }: SignUpCompProps) {
   const navigate = useNavigate()
   const [emailColor, setEmailColor] = useState('')
@@ -86,9 +89,7 @@ function SignUpComp({
     console.log(formData)
 
     try {
-      await axios.post('http://localhost:3080/api/users/register', formData, {
-        withCredentials: true,
-      })
+      await userData.userRegister(formData)
       toast.success('Registered Successfully')
       toast.info('Please verify your email')
     } catch (err: any) {

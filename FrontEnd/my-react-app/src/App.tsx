@@ -162,10 +162,7 @@ function App() {
                   <ProtectedRoute
                     user={user}
                     element={homePageGenerator(
-                      <ScheduleComp
-                        schedule={schedule}
-                        setSelectedItems={setSelectedItems}
-                      />
+                      <ScheduleComp schedule={schedule} />
                     )}
                   />
                 }
