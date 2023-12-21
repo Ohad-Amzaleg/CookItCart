@@ -29,7 +29,7 @@ const corsOptions = {
 	credentials: true, // If you're using cookies or authentication
 };
 
-const port = 3080;
+const port = process.env.PORT || 5000;
 
 dbConnect();
 app.use(express.json());
@@ -37,6 +37,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(errorHandler);
+
+// ########################### Health Check  ##########################
+app.use("/healthcheck", (req, res) => {
+	res.status(200).send("OK");
+});
 
 // ########################### Routes ##########################
 app.use('/api/users', usersRoutes);

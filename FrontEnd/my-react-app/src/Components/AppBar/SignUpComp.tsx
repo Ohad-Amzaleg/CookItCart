@@ -1,55 +1,58 @@
-import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { errors } from "../../Constants/Errors";
-import { StyledForm, textFieldStyle } from "../../Constants/Styles";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
+import React, { useState } from 'react'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { errors } from '../../Constants/Errors'
+import { StyledForm, textFieldStyle } from '../../Constants/Styles'
+import Modal from '@mui/material/Modal'
+import Box from '@mui/material/Box'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Avatar from '@mui/material/Avatar'
+import CssBaseline from '@mui/material/CssBaseline'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
+import Link from '@mui/material/Link'
+import Grid from '@mui/material/Grid'
+import Container from '@mui/material/Container'
 
-const defaultTheme = createTheme();
+const defaultTheme = createTheme()
 interface SignUpCompProps {
-  showSignUp: boolean;
-  toggleLogin: () => void;
-  toggleSignUp: () => void;
-
+  showSignUp: boolean
+  toggleLogin: () => void
+  toggleSignUp: () => void
 }
 
-function SignUpComp({ showSignUp, toggleSignUp,toggleLogin }: SignUpCompProps) {
-  const navigate = useNavigate();
-  const [emailColor, setEmailColor] = useState("");
-  const [passColor, setpassColor] = useState("");
-  const [passError, setPassError] = useState("");
-  const [emailError, setEmailError] = useState("");
+function SignUpComp({
+  showSignUp,
+  toggleSignUp,
+  toggleLogin,
+}: SignUpCompProps) {
+  const navigate = useNavigate()
+  const [emailColor, setEmailColor] = useState('')
+  const [passColor, setpassColor] = useState('')
+  const [passError, setPassError] = useState('')
+  const [emailError, setEmailError] = useState('')
 
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+    username: '',
+    email: '',
+    password: '',
+  })
 
   const validateEmail = (email: string) => {
-    const re = /\S+@\S+\.\S+/;
-    !re.test(email) ? setEmailError(errors.email) : setEmailError("");
-    return emailError === "";
-  };
+    const re = /\S+@\S+\.\S+/
+    !re.test(email) ? setEmailError(errors.email) : setEmailError('')
+    return emailError === ''
+  }
 
   const validatePassword = (password: string) => {
-    const reSpcialChar = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    const reUpperCase = /[A-Z]/;
-    const reLength = /.{8,}/;
+    const reSpcialChar = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+    const reUpperCase = /[A-Z]/
+    const reLength = /.{8,}/
 
     !reLength.test(password)
       ? setPassError(errors.pass_length)
@@ -57,45 +60,45 @@ function SignUpComp({ showSignUp, toggleSignUp,toggleLogin }: SignUpCompProps) {
       ? setPassError(errors.pass_special_char)
       : !reUpperCase.test(password)
       ? setPassError(errors.pass_upper_case)
-      : setPassError("");
+      : setPassError('')
 
-    return passError === "";
-  };
+    return passError === ''
+  }
 
   const handleInputChange = (e: any) => {
-    if (e.target.name === "password" && !validatePassword(e.target.value)) {
-      setpassColor("red");
+    if (e.target.name === 'password' && !validatePassword(e.target.value)) {
+      setpassColor('red')
     }
-    if (e.target.name === "email" && !validateEmail(e.target.value)) {
-      setEmailColor("red");
+    if (e.target.name === 'email' && !validateEmail(e.target.value)) {
+      setEmailColor('red')
     }
 
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
   const handleLogin = (e: any) => {
-    navigate("/LoginPage");
-  };
+    navigate('/LoginPage')
+  }
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    console.log(formData);
+    e.preventDefault()
+    console.log(formData)
 
     try {
-      await axios.post("http://localhost:3080/api/users/register", formData, {
+      await axios.post('http://localhost:3080/api/users/register', formData, {
         withCredentials: true,
-      });
-      toast.success("Registered Successfully");
-      toast.info("Please verify your email");
+      })
+      toast.success('Registered Successfully')
+      toast.info('Please verify your email')
     } catch (err: any) {
       switch (err.response.data.code) {
         case 0:
-          toast.error("User already exists");
-          break;
+          toast.error('User already exists')
+          break
       }
     }
-  };
+  }
 
   return (
     <Modal
@@ -106,13 +109,13 @@ function SignUpComp({ showSignUp, toggleSignUp,toggleLogin }: SignUpCompProps) {
     >
       <Box
         sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
           width: 400,
-          bgcolor: "background.paper",
-          border: "2px solid #000",
+          bgcolor: 'background.paper',
+          border: '2px solid #000',
           boxShadow: 24,
           p: 4,
         }}
@@ -124,12 +127,12 @@ function SignUpComp({ showSignUp, toggleSignUp,toggleLogin }: SignUpCompProps) {
               <Box
                 sx={{
                   marginTop: 8,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
                 }}
               >
-                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                   <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
@@ -179,10 +182,9 @@ function SignUpComp({ showSignUp, toggleSignUp,toggleLogin }: SignUpCompProps) {
                         type="password"
                         id="password"
                         autoComplete="new-password"
-                        
                       />
                     </Grid>
-                         <Grid item xs={12} style={{color:'red'}}>
+                    <Grid item xs={12} style={{ color: 'red' }}>
                       {passError}
                     </Grid>
                     <Grid item xs={12}>
@@ -204,13 +206,15 @@ function SignUpComp({ showSignUp, toggleSignUp,toggleLogin }: SignUpCompProps) {
                   </Button>
                   <Grid container justifyContent="flex-end">
                     <Grid item>
-                        <Button onClick={() => {
+                      <Button
+                        onClick={() => {
                           toggleSignUp()
                           toggleLogin()
-                        }
-                        } color="primary">
-                          Already have an account? Sign in
-                        </Button>
+                        }}
+                        color="primary"
+                      >
+                        Already have an account? Sign in
+                      </Button>
                     </Grid>
                   </Grid>
                 </Box>
@@ -220,7 +224,7 @@ function SignUpComp({ showSignUp, toggleSignUp,toggleLogin }: SignUpCompProps) {
         </div>
       </Box>
     </Modal>
-  );
+  )
 }
 
-export default SignUpComp;
+export default SignUpComp

@@ -1,78 +1,61 @@
-const schedule = require("../Models/Schdule");
-const asyncHandler = require("express-async-handler");
+const schedule = require('../Models/Schdule')
+const asyncHandler = require('express-async-handler')
+const { Semaphore } = require('async-mutex')
+
+const mutex = new Semaphore(1)
 
 //@desc Get user schedule
 //@route GET /api/schedule/events
 //@access Private
 const getEvents = asyncHandler(async (req, res) => {
-  const currSchedule = await schedule.findOne({ email: req.user.email });
+  const currSchedule = await schedule.findOne({ email: req.user.email })
   if (!currSchedule) {
-    res.status(400).json({ error: "No schedule found" });
+    res.status(400).json({ error: 'No schedule found' })
   }
-  res.status(200).json({ events: currSchedule.events });
-});
+  res.status(200).json({ events: currSchedule.events })
+})
 
 //@desc Get user weekly nutrition
 //@route GET /api/schedule/nutrition
 //@access Private
 const getNutrition = asyncHandler(async (req, res) => {
-  const currSchedule = await schedule.findOne({ email: req.user.email });
+  const currSchedule = await schedule.findOne({ email: req.user.email })
   if (!currSchedule) {
-    res.status(400).json({ error: "No schedule found" });
+    res.status(400).json({ error: 'No schedule found' })
   }
-  res.status(200).json({ nutrition: currSchedule.weeklyNutrition });
-});
+  res.status(200).json({ nutrition: currSchedule.weeklyNutrition })
+})
 
 //@desc Update user schedule
-//@route POST /api/schedule/update/events
+//@route POST /api/schedule/update
 //@access Private
-const updateEvents = asyncHandler(async (req, res) => {
-  const newEvents = req.body.data;
-  if (!newEvents) {
-    res.status(400).json({ error: "No events found" });
+const updateSchedule = asyncHandler(async (req, res) => {
+  const { newEvents, newNutrients } = req.body
+
+  if (newEvents.length === 0 || newNutrients.length === 0) {
+    res.status(401).json({ error: 'Nothing to update' })
   }
-
-  const currentSchedule = await schedule.findOne({ email: req.user.email });
-
+  let currentSchedule = await schedule.findOne({ email: req.user.email })
+  //User exist in db already
   if (currentSchedule) {
-    currentSchedule.events = newEvents;
-    currentSchedule.save();
-    res.status(200).json({ schedule: currentSchedule });
-  } else {
-    const newSchedule = new schedule({
+    currentSchedule.events = newEvents
+    currentSchedule.weeklyNutrition = newNutrients
+  }
+  //User does not exist in db
+  else {
+    currentSchedule = new schedule({
       email: req.user.email,
       events: newEvents,
-      weeklyNutrition: {},
-    });
-    newSchedule.save();
-    res.status(200).json({ schedule: newSchedule });
+      weeklyNutrition: newNutrients,
+    })
   }
-});
-
-//@desc Update user weekly nutrition
-//@route POST /api/schedule/update/nutrition
-//@access Private
-const updateNutrition = asyncHandler(async (req, res) => {
-  const newNutrition = req.body.data;
-  if (!newNutrition) {
-    res.status(400).json({ error: "No nutrition found" });
+  //Save to db
+  try {
+    await currentSchedule.save()
+    res.status(200).json({ schedule: currentSchedule })
+  } catch (error) {
+    res.status(400).json({ error: 'Error saving schedule' })
   }
+})
 
-  const currentSchedule = await schedule.findOne({ email: req.user.email });
-
-  if (currentSchedule) {
-    currentSchedule.weeklyNutrition = newNutrition;
-    currentSchedule.save();
-    res.status(200).json({ schedule: currentSchedule });
-  } else {
-    const newSchedule = new schedule({
-      email: req.user.email,
-      events: [],
-      weeklyNutrition: newNutrition,
-    });
-    newSchedule.save();
-    res.status(200).json({ schedule: newSchedule });
-  }
-});
-
-module.exports = { getEvents, getNutrition, updateEvents, updateNutrition };
+module.exports = { getEvents, getNutrition, updateSchedule }
