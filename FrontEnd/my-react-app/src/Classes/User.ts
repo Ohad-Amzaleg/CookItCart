@@ -48,6 +48,7 @@ export default class User {
         { user: user },
         { withCredentials: true }
       )
+      console.log('res: ', res)
       return new User(res.data.user, res.data.token)
     } catch (err: any) {
       throw err
