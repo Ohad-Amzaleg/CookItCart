@@ -42,6 +42,10 @@ const getCurrent = asyncHandler(async (req, res) => {
 //@route GET /api/users/login
 //@access Public
 const loginUser = asyncHandler(async (req, res) => {
+  if (!req.body) {
+    return res.status(400).json({ error: 'Invalid credentials' })
+  }
+
   const { email, password } = req.body.user
   const user = await userExist(email, users)
 
@@ -56,7 +60,7 @@ const loginUser = asyncHandler(async (req, res) => {
   //Create Token for the current user
   const accesToken = createTokens(user)
   //Set the token in the cookie
-  res.cookie('access-token', accesToken, { maxAge: 60 * 60 * 24 * 30 * 1000 })
+  res.cookie('access-token', accesToken, { maxAge: 60 * 60 * 24 * 30 * 1000 },)
 
   //Send the user data to the client
   res.status(200).json({ user: user, token: accesToken })
@@ -172,10 +176,15 @@ const deleteUser = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: 'User deleted successfully' })
 })
 
+const tester = asyncHandler(async (req, res) => {
+  res.status(200).send('Test Pass successfully')
+})
+
 module.exports = {
   getCurrent,
   loginUser,
   addUser,
   updateUser,
   deleteUser,
+  tester,
 }

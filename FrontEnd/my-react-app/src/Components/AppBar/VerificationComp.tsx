@@ -1,93 +1,88 @@
-import React, { useState, useRef, useEffect } from "react";
-import { TextField, Button, Grid, Box } from "@mui/material";
-import { verificationCodeStyle } from "../../Constants/Styles";
-import axios from "axios";
-import { toast } from "react-toastify";
+import React, { useState, useRef, useEffect } from 'react'
+import { TextField, Button, Grid, Box } from '@mui/material'
+import { verificationCodeStyle } from '../../Constants/Styles'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { BASE_URL } from '../../constants'
 
 const buttonStyle = {
-  padding: "10px 20px", // Adjust the padding as needed
-  margin: "0 10px", // Add margin between buttons
-  borderRadius: "5px", // Add rounded corners
-  fontWeight: "bold", // Make text bold
-};
+  padding: '10px 20px', // Adjust the padding as needed
+  margin: '0 10px', // Add margin between buttons
+  borderRadius: '5px', // Add rounded corners
+  fontWeight: 'bold', // Make text bold
+}
 interface VerificationCompProps {
-  setUser: React.Dispatch<React.SetStateAction<any>>;
-  userData: any;
+  setUser: React.Dispatch<React.SetStateAction<any>>
+  userData: any
 }
 
 function VerificationComp({ setUser, userData }: VerificationCompProps) {
-  const [verificationCode, setVerificationCode] = useState([
-    "",
-    "",
-    "",
-    "",
-    "",
-  ]);
-  const inputRefs = useRef([]) as any;
+  const [verificationCode, setVerificationCode] = useState(['', '', '', '', ''])
+  const inputRefs = useRef([]) as any
 
   useEffect(() => {
     if (inputRefs.current[0]) {
-      inputRefs.current[0].focus(); // Focus on the first input field initially
+      inputRefs.current[0].focus() // Focus on the first input field initially
     }
-    toast.warning("Please verify your email");
-  }, []);
+    toast.warning('Please verify your email')
+  }, [])
 
   const handleInputChange = (event: any, index: number) => {
     //Restrict input to numbers only
-    const re = /^[0-9\b]+$/;
-    const value = re.test(event.target.value) ? event.target.value : "";
+    const re = /^[0-9\b]+$/
+    const value = re.test(event.target.value) ? event.target.value : ''
 
     // Update state with new code entered by the user
-    const newVerificationCode = [...verificationCode];
-    newVerificationCode[index] = value;
-    setVerificationCode(newVerificationCode);
+    const newVerificationCode = [...verificationCode]
+    newVerificationCode[index] = value
+    setVerificationCode(newVerificationCode)
 
     // Automatically focus on the next input field
     if (index < verificationCode.length - 1 && value) {
-      console.log(inputRefs.current[index + 1], index);
-      inputRefs.current[index + 1].focus();
+      console.log(inputRefs.current[index + 1], index)
+      inputRefs.current[index + 1].focus()
     }
-  };
+  }
 
   const validateCode = async (code: string) => {
     try {
       await axios
         .post(
-          "http://localhost:3080/api/auth/validate",
+          `${BASE_URL}/api/auth/validate`,
           { code },
           { withCredentials: true }
         )
         .then((res) => {
           if (res.data.verified) {
             //Update verification status
-            setUser((prevState: any) => ({ ...prevState, verified: true }));
-            toast.success(`${userData.username} Logged in successfully`);
+            setUser((prevState: any) => ({ ...prevState, verified: true }))
+            toast.success(`${userData.username} Logged in successfully`)
           }
         })
         .catch((err) => {
-          toast.error("Invalid OTP");
-        });
+          toast.error('Invalid OTP')
+        })
     } catch (err) {}
-  };
+  }
   const handleValidation = (event: any) => {
-    event.preventDefault();
-    const code = verificationCode.join("").toString();
-    validateCode(code);
-  };
+    event.preventDefault()
+    const code = verificationCode.join('').toString()
+    validateCode(code)
+  }
 
   const handleResend = async (event: any) => {
-    event.preventDefault();
+    event.preventDefault()
     await axios
-      .post("http://localhost:3080/api/auth/resend", {
+      .post(`${BASE_URL}/api/auth/validate`, {
         withCredentials: true,
       })
       .then((res) => {
-        toast.success("Verification Email Sent");
+        toast.success('Verification Email Sent')
       })
       .catch((err) => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
 
   return (
     <div>
@@ -107,9 +102,9 @@ function VerificationComp({ setUser, userData }: VerificationCompProps) {
                 inputProps={{
                   maxLength: 1,
                   style: {
-                    textAlign: "center",
-                    fontSize: "2em",
-                    padding: "0em",
+                    textAlign: 'center',
+                    fontSize: '2em',
+                    padding: '0em',
                   },
                 }}
                 ref={(inputRef) => (inputRefs.current[index] = inputRef)}
@@ -138,7 +133,7 @@ function VerificationComp({ setUser, userData }: VerificationCompProps) {
         </Box>
       </form>
     </div>
-  );
+  )
 }
 
-export default VerificationComp;
+export default VerificationComp

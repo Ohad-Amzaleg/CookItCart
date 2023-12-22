@@ -49,6 +49,11 @@ app.use('/api/schedule', scheduleRoutes)
 
 app.use('/api/cart', scheduleRoutes)
 
+// ########################### Health Check ##########################
+app.use('/healthcheck', (res, req) => {
+  res.status(200).json({ message: 'Health Check Passed' })
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
