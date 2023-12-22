@@ -1,1 +1,1 @@
-export const BASE_URL = 'backend.cookitcart.site'
+export const BASE_URL = 'https://backend.cookitcart.site'

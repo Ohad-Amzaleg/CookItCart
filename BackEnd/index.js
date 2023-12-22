@@ -24,7 +24,7 @@ const errorHandler = require('./Middleware/errorHandler')
 
 // Define CORS options
 const corsOptions = {
-  origin: 'http://localhost:3000', // Replace with your desired origin(s)
+  origin: 'https://www.cookitcart.site', // Replace with your desired origin(s)
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // If you're using cookies or authentication
 }
