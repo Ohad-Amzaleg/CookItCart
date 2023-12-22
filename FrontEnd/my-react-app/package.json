@@ -52,8 +52,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test",
+    "deploy": "react-scripts build && amplify publish"
   },
   "eslintConfig": {
     "extends": [
