@@ -13,11 +13,13 @@ This project is a web application created with React (TypeScript) in the fronten
 ## Technologies Used
 
 ### Frontend:
+
 - React
 - TypeScript
 - AWS Amplify (hosting)
 
 ### Backend:
+
 - Node.js
 - Express.js
 - MongoDB (database)
@@ -28,7 +30,7 @@ This project is a web application created with React (TypeScript) in the fronten
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/projectname.git
+   git clone https://github.com/ohadAM12/CookItCart.git
    ```
 
 2. **Navigate to the frontend and backend directories and install dependencies:**
@@ -57,7 +59,7 @@ This project is a web application created with React (TypeScript) in the fronten
 
 5. **Access the application in your browser at:**
    - Frontend: `http://localhost:3000`
-   - Backend: `http://localhost:8080`
+   - Backend: `http://localhost:3080`
 
 ## Usage
 
