@@ -1,8 +1,4 @@
-Certainly! Here's an example of what your README file for the GitHub project might look like:
-
----
-
-# Meal Scheduler and Shopping Cart Generator
+#CookItCart
 
 This project is a web application created with React (TypeScript) in the frontend and Node.js in the backend. It allows users to select meals, add them to their schedule, and automatically generate an ingredients cart based on the selected meals.
 
@@ -17,6 +13,7 @@ This project is a web application created with React (TypeScript) in the fronten
 ## Technologies Used
 
 - **Frontend:**
+
   - React
   - TypeScript
   - AWS Amplify (hosting)
@@ -70,6 +67,5 @@ This project is a web application created with React (TypeScript) in the fronten
 
 - **Frontend (AWS Amplify):** The frontend can be deployed to AWS Amplify. Configure Amplify with your GitHub repository and set up continuous deployment.
 - **Backend (Elastic Beanstalk):** Deploy the backend to Elastic Beanstalk by configuring the environment and deploying the Node.js application.
-
 
 Feel free to adjust the sections, add more details, or include specific commands depending on your project's structure and requirements!
