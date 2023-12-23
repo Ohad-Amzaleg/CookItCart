@@ -33,7 +33,7 @@ const updateSchedule = asyncHandler(async (req, res) => {
   const { newEvents, newNutrients } = req.body
 
   if (newEvents.length === 0 || newNutrients.length === 0) {
-    res.status(401).json({ error: 'Nothing to update' })
+    res.status(400).json({ error: 'Nothing to update' })
   }
   let currentSchedule = await schedule.findOne({ email: req.user.email })
   //User exist in db already
