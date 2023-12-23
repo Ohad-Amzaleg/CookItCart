@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState} from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
@@ -12,7 +12,6 @@ import {
   Checkbox,
   FormControlLabel,
   Grid,
-  Link,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -43,7 +42,7 @@ const LoginComp = ({
   const [submitted, setSubmitted] = useState(false);
 
   const handleFrogetPassword = () => {
-  
+
   }
 
   const handleInputChange = (e: any) => {
@@ -187,7 +186,7 @@ const LoginComp = ({
                         }} >
                           Don't have an account? Sign Up
                         </Button>
-                 
+
                     </Grid>
                   </Grid>
                 </Box>

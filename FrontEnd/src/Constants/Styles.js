@@ -1,5 +1,5 @@
 import backgroundImg from "../Assets/background.jpg";
-import { boxSizing, styled } from "@mui/system";
+import { styled } from "@mui/system";
 
 // ################ Styled Components ################
 const StyledForm = styled("form")({

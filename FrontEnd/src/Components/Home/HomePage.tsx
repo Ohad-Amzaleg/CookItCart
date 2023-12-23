@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { styled } from '@mui/system'
+import React from 'react'
 import NavBarComp from './NavBarComp'
 import AppBarComp from '../AppBar/AppBarComp'
 import FloatingBarComp from './FloatingBarComp'

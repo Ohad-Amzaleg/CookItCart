@@ -1,5 +1,5 @@
 import './App.css'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -19,7 +19,6 @@ import Cart from './Classes/Cart'
 import User from './Classes/User'
 import Schedule from './Classes/Schedule'
 import Recipe from './Classes/Recipe'
-import { BASE_URL } from './constants'
 import WelcomeComp from './Components/Home/WelcomeComp'
 import MyAccountComp from './Components/AppBar/MyAccountComp'
 
@@ -33,21 +32,6 @@ function App() {
   const [foodData, setFoodData] = useState(new Recipe())
   const [loading, setLoading] = useState(true)
   const [pageLoading, setPageLoading] = useState(false)
-
-  const updateServings = async (item: any) => {
-    setSelectedItems((prev: any) => {
-      return prev.map((foodItem: any) => {
-        if (foodItem.id === item.foodItem.id) {
-          return {
-            ...foodItem,
-            servings: foodItem.servings - 1,
-          }
-        } else {
-          return foodItem
-        }
-      })
-    })
-  }
 
   //Initialize user
   useEffect(() => {

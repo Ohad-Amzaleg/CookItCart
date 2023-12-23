@@ -1,12 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { errors } from '../../Constants/Errors'
-import { StyledForm, textFieldStyle } from '../../Constants/Styles'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
@@ -15,7 +12,6 @@ import Avatar from '@mui/material/Avatar'
 import CssBaseline from '@mui/material/CssBaseline'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
-import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
 import User from '../../Classes/User'
@@ -34,7 +30,6 @@ function SignUpComp({
   toggleLogin,
   userData,
 }: SignUpCompProps) {
-  const navigate = useNavigate()
   const [emailColor, setEmailColor] = useState('')
   const [passColor, setpassColor] = useState('')
   const [passError, setPassError] = useState('')
@@ -78,10 +73,6 @@ function SignUpComp({
 
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
-  }
-
-  const handleLogin = (e: any) => {
-    navigate('/LoginPage')
   }
 
   const handleSubmit = async (e: any) => {

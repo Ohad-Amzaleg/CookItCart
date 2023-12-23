@@ -47,12 +47,7 @@ const ArrowSvg = styled.svg`
   height: auto;
   animation: ${ArrowAnimation} 2s linear infinite;
 `;
-const containerStyle = {
-  flexDirection: "column",
-  justifyContent: "center",
-  minHeight: "100vh", // Adjust the height as needed
-  minWidth: "100vw",
-};
+
 function FoodScheduleBlock() {
   return (
     <div

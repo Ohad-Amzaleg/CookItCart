@@ -1,17 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import background from '../../Assets/background.jpg';
 import foodImage1 from '../../Assets/food1.jpg'; // Import your food images
 import foodImage2 from '../../Assets/food2.jpg';
 import foodImage3 from '../../Assets/food3.jpg';
 
 const foodImages = [foodImage1, foodImage2, foodImage3]; // Array of imported images
-
-const getRandomPosition = () => {
-  const randomX = Math.random() * 90; // Random X position within the container
-  const randomY = Math.random() * 90; // Random Y position within the container
-  return { x: randomX, y: randomY };
-};
 
 const getRandomRotation = () => {
   const randomRotation = Math.random() * 360; // Random rotation angle
@@ -102,7 +95,7 @@ const Welcome: React.FC<WelcomeProps> = ({ username }) => {
                   />
                   );
                 })}
-                
+
                 </div>
     </div>
   );
