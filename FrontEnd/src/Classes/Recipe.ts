@@ -1,25 +1,25 @@
-import { BASE_URL } from "../constants";
-import FoodItem  from "./FoodItem";
-import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
+import { BASE_URL } from '../constants'
+import FoodItem from './FoodItem'
+import { v4 as uuidv4 } from 'uuid'
+import axios from 'axios'
 
 export default class Recipes {
-  userId: number;
-  recipies: Array<FoodItem>;
+  userId: number
+  recipies: Array<FoodItem>
 
   constructor(userId = 0, recipies = []) {
-    this.userId = userId;
-    this.recipies = recipies;
+    this.userId = userId
+    this.recipies = recipies
   }
 
   //@desc fetch recipes from database
   //@return type Promise<Array<FoodItem>>
   //@access private
   async fetchData(filterOptions: any): Promise<Recipes> {
-    const { cookingTime, Rating, Ingredients, searchTerm } = filterOptions;
-    const url = createUrl(cookingTime, Rating, Ingredients, searchTerm);
+    const { cookingTime, Rating, Ingredients, searchTerm } = filterOptions
+    const url = createUrl(cookingTime, Rating, Ingredients, searchTerm)
     try {
-      const res = await axios.get(url, { withCredentials: true });
+      const res = await axios.get(url, { withCredentials: true })
       const proccecedData = res.data.recepies.map((recipe: any) => {
         return new FoodItem(
           uuidv4(),
@@ -34,14 +34,14 @@ export default class Recipes {
           recipe.rating,
           recipe.nutrition,
           recipe.timeToCook
-        );
-      });
-      const filteredData = filterData(proccecedData, Rating, Ingredients);
-      return new Recipes(this.userId, filteredData);
+        )
+      })
+      const filteredData = filterData(proccecedData, Rating, Ingredients)
+      return new Recipes(this.userId, filteredData)
     } catch (err: any) {
-      console.log(err);
-      console.log("Error fetching recipes");
-      return new Recipes(this.userId, []);
+      console.log(err)
+      console.log('Error fetching recipes')
+      return new Recipes(this.userId, [])
     }
   }
 
@@ -64,36 +64,36 @@ export default class Recipes {
 const filterData = (unfilteredData: any, rating: any, ingredients: any) => {
   if (rating || ingredients) {
     const filterdData = unfilteredData.filter((recipe: any) => {
-      let ratingMatch = true;
-      let ingredientsMatch = true;
+      let ratingMatch = true
+      let ingredientsMatch = true
 
       if (ingredients) {
         // Extract ingredients and rating from the recipe
         const recipeIngredients = recipe.ingredients.map(
           (item: any) => item.raw_text
-        );
+        )
 
         // Check if any of the ingredients match the provided ingredients
-        const ingredientRegex = new RegExp(ingredients.join("|"), "i"); // Case-insensitive
+        const ingredientRegex = new RegExp(ingredients.join('|'), 'i') // Case-insensitive
         ingredientsMatch = recipeIngredients.some((ingredient: any) => {
           if (ingredientRegex.test(ingredient)) {
           }
-          return ingredientRegex.test(ingredient);
-        });
+          return ingredientRegex.test(ingredient)
+        })
       }
 
       if (rating) {
-        const recipeRating = recipe.rating.score * 5;
+        const recipeRating = recipe.rating.score * 5
         // Check if the rating meets the specified rating
-        ratingMatch = !rating || recipeRating >= rating;
+        ratingMatch = !rating || recipeRating >= rating
       }
       // Return true if both ingredient and rating criteria are met
-      return ingredientsMatch && ratingMatch;
-    });
-    return filterdData;
+      return ingredientsMatch && ratingMatch
+    })
+    return filterdData
   }
-  return unfilteredData;
-};
+  return unfilteredData
+}
 
 const createUrl = (
   cookingTime: any,
@@ -101,10 +101,10 @@ const createUrl = (
   ingredients: any,
   searchTerm: any
 ) => {
-  const params: string[] = [];
+  const params: string[] = []
 
   if (cookingTime) {
-    params.push(`cookingTime=${cookingTime}`);
+    params.push(`cookingTime=${cookingTime}`)
   }
 
   // if (rating) {
@@ -117,9 +117,9 @@ const createUrl = (
   // }
 
   if (searchTerm) {
-    params.push(`search=${searchTerm}`);
+    params.push(`search=${searchTerm}`)
   }
 
-  let url = `${BASE_URL}/api/recipes${params ? `?${params.join("&")}` : ``}`;
-  return url;
-};
+  let url = `${BASE_URL}/api/recipes${params ? `?${params.join('&')}` : ``}`
+  return url
+}
