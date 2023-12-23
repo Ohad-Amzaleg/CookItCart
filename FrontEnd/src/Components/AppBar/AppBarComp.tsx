@@ -77,11 +77,10 @@ export default function PrimarySearchAppBar({
   }
 
   const handleLogout = () => {
-    // Delete the token cookie by setting its expiration date to a date in the past
-    const expirationDate = new Date('2000-01-01') // A date in the past
-
+    // Delete the token cookie
     // Adjusted syntax for setting path and domain attributes
-    document.cookie = `access-token=; expires=${expirationDate.toUTCString()}; path=/; domain=cookitcart.site`
+    document.cookie =
+      'access-token=; Max-Age=-1; path=/; domain=cookitcart.site'
 
     // Redirect the user to the login page
     navigate('/')

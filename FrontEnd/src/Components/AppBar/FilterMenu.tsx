@@ -82,7 +82,7 @@ function FilterMenu({
   setIsFilterMenuOpen,
 }: FilterMenuProps) {
   const [ingredientList, setIngredientList] = useState(ingredients)
-  const [searchTerm, setSearchTerm] = useState('Pasta')
+  const [searchTerm, setSearchTerm] = useState('')
   const [cookingTimeList, setCookingTimeList] = useState(cookingTime)
   const [ratingValue, setRatingValue] = useState(rating)
   const [apply, setApply] = useState(false)
