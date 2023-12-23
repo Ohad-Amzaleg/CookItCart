@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@mui/styles';
-import { TextField, Button, Typography, Divider, Modal, Box } from '@mui/material';
-import User from '../../Classes/User';
-import { useNavigate } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home'; 
+import React, { useState } from 'react'
+import { makeStyles } from '@mui/styles'
+import {
+  TextField,
+  Button,
+  Typography,
+  Divider,
+  Modal,
+  Box,
+} from '@mui/material'
+import User from '../../Classes/User'
+import { useNavigate } from 'react-router-dom'
+import HomeIcon from '@mui/icons-material/Home'
 
 interface MyAccountCompProps {
-  userData: User;
+  userData: User
 }
 
 const useStyles = makeStyles({
@@ -35,7 +42,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     gap: '20px',
   },
-   returnHomeButton: {
+  returnHomeButton: {
     marginTop: '20px',
     padding: '12px 20px',
     borderRadius: '8px',
@@ -48,60 +55,64 @@ const useStyles = makeStyles({
     textDecoration: 'none',
     '&:hover': {
       backgroundColor: '#0e5aac',
-     },
+    },
   },
-});
+})
 
-const MyAccountComp = ({userData}:MyAccountCompProps) => {
-  const classes = useStyles();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [currentEmail, setCurrentEmail] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showEmail, setShowEmail] = useState(false);
-  const navigate = useNavigate();
+const MyAccountComp = ({ userData }: MyAccountCompProps) => {
+  const classes = useStyles()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [currentEmail, setCurrentEmail] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [showEmail, setShowEmail] = useState(false)
+  const navigate = useNavigate()
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
+    setEmail(e.target.value)
+  }
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
+    setPassword(e.target.value)
+  }
 
   const handleCurrentEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentEmail(e.target.value);
-  };
+    setCurrentEmail(e.target.value)
+  }
 
-  const handleCurrentPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentPassword(e.target.value);
-  };
+  const handleCurrentPasswordChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setCurrentPassword(e.target.value)
+  }
 
   const handleEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     // Implement your logic to change email
-    console.log('Current Email:', currentEmail);
-    console.log('New Email:', email);
-  };
+    console.log('Current Email:', currentEmail)
+    console.log('New Email:', email)
+  }
 
   const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     // Implement your logic to change password
-    console.log('Current Password:', currentPassword);
-    console.log('New Password:', password);
-  };
+    console.log('Current Password:', currentPassword)
+    console.log('New Password:', password)
+  }
 
-   const handleReturnHome = () => {
-    navigate("/HomePage");
-   };
-  
+  const handleReturnHome = () => {
+    navigate('/HomePage')
+  }
+
   return (
     <div className={classes.root}>
-       <Button className={classes.returnHomeButton} onClick={handleReturnHome}>
-        <HomeIcon/>
-        Return Home
-      </Button>
+      <div>
+        <HomeIcon />
+        <Button className={classes.returnHomeButton} onClick={handleReturnHome}>
+          Return Home
+        </Button>
+      </div>
       <div className={classes.section}>
         <Typography variant="h4">Account Information</Typography>
         {/* Display user information here */}
@@ -112,103 +123,111 @@ const MyAccountComp = ({userData}:MyAccountCompProps) => {
       <Divider />
       <div className={classes.section}>
         <Typography variant="h4">Change Email</Typography>
-            <Modal
-      open={showEmail}
-      onClose={()=>setShowEmail(false)}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 400,
-          bgcolor: "background.paper",
-          border: "2px solid #000",
-          boxShadow: 24,
-          p: 4,
-        }}
+        <Modal
+          open={showEmail}
+          onClose={() => setShowEmail(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 400,
+              bgcolor: 'background.paper',
+              border: '2px solid #000',
+              boxShadow: 24,
+              p: 4,
+            }}
           >
-          <form className={classes.form} onSubmit={handleEmailSubmit}>
-            <TextField
-              type="email"
-              label="Current Email"
-              variant="outlined"
-              value={currentEmail}
-              onChange={handleCurrentEmailChange}
-              required
-            />
-            <TextField
-              type="email"
-              label="New Email"
-              variant="outlined"
-              value={email}
-              onChange={handleEmailChange}
-              required
-            />
-            <Button type="submit" variant="contained" color="primary">
-              Update Email
-            </Button>
-          </form>
+            <form className={classes.form} onSubmit={handleEmailSubmit}>
+              <TextField
+                type="email"
+                label="Current Email"
+                variant="outlined"
+                value={currentEmail}
+                onChange={handleCurrentEmailChange}
+                required
+              />
+              <TextField
+                type="email"
+                label="New Email"
+                variant="outlined"
+                value={email}
+                onChange={handleEmailChange}
+                required
+              />
+              <Button type="submit" variant="contained" color="primary">
+                Update Email
+              </Button>
+            </form>
           </Box>
-          </Modal>
-          <Button onClick={() => setShowEmail(true)} variant="outlined" color="primary">
-            Change Email
-          </Button>
+        </Modal>
+        <Button
+          onClick={() => setShowEmail(true)}
+          variant="outlined"
+          color="primary"
+        >
+          Change Email
+        </Button>
       </div>
       <Divider />
       <div className={classes.section}>
         <Typography variant="h4">Change Password</Typography>
-         <Modal
-      open={showPassword}
-      onClose={()=>setShowPassword(false)}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 400,
-          bgcolor: "background.paper",
-          border: "2px solid #000",
-          boxShadow: 24,
-          p: 4,
-        }}
+        <Modal
+          open={showPassword}
+          onClose={() => setShowPassword(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 400,
+              bgcolor: 'background.paper',
+              border: '2px solid #000',
+              boxShadow: 24,
+              p: 4,
+            }}
           >
-             <form className={classes.form} onSubmit={handlePasswordSubmit}>
-            <TextField
-              type="password"
-              label="Current Password"
-              variant="outlined"
-              value={currentPassword}
-              onChange={handleCurrentPasswordChange}
-              required
-            />
-            <TextField
-              type="password"
-              label="New Password"
-              variant="outlined"
-              value={password}
-              onChange={handlePasswordChange}
-              required
-            />
-            <Button type="submit" variant="contained" color="primary">
-              Update Password
-            </Button>
-          </form>
+            <form className={classes.form} onSubmit={handlePasswordSubmit}>
+              <TextField
+                type="password"
+                label="Current Password"
+                variant="outlined"
+                value={currentPassword}
+                onChange={handleCurrentPasswordChange}
+                required
+              />
+              <TextField
+                type="password"
+                label="New Password"
+                variant="outlined"
+                value={password}
+                onChange={handlePasswordChange}
+                required
+              />
+              <Button type="submit" variant="contained" color="primary">
+                Update Password
+              </Button>
+            </form>
           </Box>
-          </Modal>
-          <Button onClick={() => setShowPassword(true)} variant="outlined" color="primary">
-            Change Password
-          </Button>
+        </Modal>
+        <Button
+          onClick={() => setShowPassword(true)}
+          variant="outlined"
+          color="primary"
+        >
+          Change Password
+        </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MyAccountComp;
+export default MyAccountComp
