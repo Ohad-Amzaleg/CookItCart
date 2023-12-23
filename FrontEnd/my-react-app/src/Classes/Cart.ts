@@ -1,8 +1,7 @@
-import { co } from "@fullcalendar/core/internal-common";
 import { BASE_URL } from "../constants";
 import FoodItem from "./FoodItem";
 import axios from "axios";
-import { parse } from "date-fns";
+import Fraction from 'fraction.js';
 
 export default class Cart {
   userId: number;
@@ -28,7 +27,6 @@ export default class Cart {
   //@desc add item to cart
   //@access private
   async addToCart(foodItem: FoodItem) {
-    console.log(foodItem);
     //Create a list of ingredients with their grams
     const ingredientsToGrams = createIngrideintsTable(foodItem);
     //Add to the item table new item with the ingredients table
@@ -37,23 +35,22 @@ export default class Cart {
     ingredientsToGrams.forEach((value, key) => {
       if (this.cartTable.has(key)) {
         const currentVal = this.cartTable.get(key) ?? 0;
-        // console.log(`key : ${key} value : ${value}`);
         this.cartTable.set(key, currentVal + value);
       } else {
-        // console.log(`key : ${key} value : ${value}`);
         this.cartTable.set(key, value);
       }
     });
-    // console.log(this.cartTable);
-    //Meals items for frontEnd list
+
+    //If the item is already in the cart, don't add it again
+    if (this.items.some((item) => item.id === foodItem.id))
+      return;
     this.items.push(foodItem);
   }
 
   //@desc remove item from cart
   //@access private
   async removeFromCart(recipeId: string) {
-    console.log("remove from cart");
-    console.log(recipeId);
+
     this.items = this.items.filter((item) => item.id !== recipeId);
     //Remove the item ingredients from the cart table
     const ingredientsToGrams = this.itemTable.get(parseFloat(recipeId));
@@ -118,20 +115,45 @@ const ingredientGramsTable: Record<string, number> = {
   none: 1,
 };
 
+const unicodeFractionToFloat = (input: string): number => {
+  const normalize = input.normalize("NFKD");
+  const operands = normalize.split("⁄");
+  if (operands.length === 2) {
+    try {
+      const fraction = new Fraction(parseInt(operands[0]), parseInt(operands[1]));
+      console.log(fraction.valueOf());
+      return fraction.valueOf(); // Convert the fraction to a float
+    } catch (error) {
+      console.log(error)  
+    }
+  }
+  // If no Unicode fractions were found or converted, return the original input
+  return parseFloat(input);
+};
+
+
 function createIngrideintsTable(foodItem: FoodItem) {
   console.log(foodItem.ingredients);
   // Create a list of ingredients with their grams
   const ingredientsToGrams: Map<string, number> = new Map();
   foodItem.ingredients.forEach((item: any) => {
     let name = item.ingredient.name;
+    let index = 0;
     let quantity =
-      item.measurements[0].unit.system === "metric" ||
-      item.measurements[0].unit.system === "none"
-        ? parseFloat(item.measurements[0].quantity)
-        : ingredientGramsTable[item.measurements[0].unit.abbreviation] *
-          parseFloat(item.measurements[0].quantity);
-
-    if (quantity > 0) ingredientsToGrams.set(name, quantity);
+      item.measurements.some((m: any) => {
+        if (m.unit.system === "none"
+          || m.unit.system === "metric")
+        {
+          index = item.measurements.indexOf(m);
+          return true;
+        }
+        return false;
+        })
+    ? parseFloat(item.measurements[index].quantity)
+    : ingredientGramsTable[item.measurements[0].unit.name] *
+    unicodeFractionToFloat(item.measurements[0].quantity);
+    
+    ingredientsToGrams.set(name, quantity);
   });
 
   return ingredientsToGrams;

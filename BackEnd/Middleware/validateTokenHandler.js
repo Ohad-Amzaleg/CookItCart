@@ -1,31 +1,35 @@
-const { sign, verify } = require('jsonwebtoken');
-const asyncHandler = require('express-async-handler');
+const { sign, verify } = require('jsonwebtoken')
+const asyncHandler = require('express-async-handler')
 
-const createTokens = user => {
-	const accessToken = sign({ username: user.username, email: user.email }, process.env.SECRET_TOKEN, {
-		expiresIn: '2h',
-	});
-	return accessToken;
-};
+const createTokens = (user) => {
+  const accessToken = sign(
+    { username: user.username, email: user.email },
+    process.env.SECRET_TOKEN,
+    {
+      expiresIn: '2h',
+    }
+  )
+  return accessToken
+}
 
 const validateToken = asyncHandler(async (req, res, next) => {
-	const userToken = req.user ? req.user.token : null;
-	const accessToken = req.cookies['access-token'] || userToken;
+  const userToken = req.user ? req.user.token : null
+  const accessToken = req.cookies['access-token'] || userToken
 
-	if (!accessToken) {
-		return;
-		// res.status(401);
-		// throw new Error('User is unauthorized');
-	}
+  if (!accessToken) {
+    return
+    // res.status(401);
+    // throw new Error('User is unauthorized');
+  }
 
-	verify(accessToken, process.env.SECRET_TOKEN, (err, decoded) => {
-		if (err) {
-			return res.status(401).json({ error: 'User is unauthorized' });
-		}
-		req.user = decoded;
-		req.token = accessToken;
-		next();
-	});
-});
+  verify(accessToken, process.env.SECRET_TOKEN, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: 'User is unauthorized' })
+    }
+    req.user = decoded
+    req.token = accessToken
+    next()
+  })
+})
 
-module.exports = { createTokens, validateToken };
+module.exports = { createTokens, validateToken }

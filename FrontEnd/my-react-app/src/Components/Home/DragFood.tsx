@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
 import FoodItem from "../../Classes/FoodItem";
 import Badge from "@mui/material/Badge";

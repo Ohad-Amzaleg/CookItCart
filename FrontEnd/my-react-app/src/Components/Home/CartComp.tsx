@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import {  useState } from "react";
 import FoodItem from "../../Classes/FoodItem";
 import Cart from "../../Classes/Cart";
 import Table from "@mui/material/Table";
@@ -54,7 +54,7 @@ const CartComp = ({ cart }: CartProps) => {
   return (
     <div className="cart">
       <div>
-        <h2>Your Cart</h2>
+        <h2>Selected Meals</h2>
         <div className="items">
           {cartItems.map((item: FoodItem, index: number) => (
             <div className="item" key={index}>
@@ -74,6 +74,7 @@ const CartComp = ({ cart }: CartProps) => {
               </div>
             </div>
           ))}
+          <h2>Your Cart</h2>
         </div>
         <div>{tableComponent()}</div>
       </div>
@@ -81,19 +82,10 @@ const CartComp = ({ cart }: CartProps) => {
       <div className="summary">
         <h3>Summary</h3>
         <p>Total Items: {cartItems.length}</p>
-        <p>Total Price: ${calculateTotalPrice(cartItems)}</p>
-        {/* Add Checkout Button or Additional Actions */}
       </div>
     </div>
   );
 };
 
-// Helper function to calculate total price
-const calculateTotalPrice = (cartItems: any) => {
-  return cartItems.reduce(
-    (total: any, item: any) => total + item.price * item.quantity,
-    0
-  );
-};
 
 export default CartComp;

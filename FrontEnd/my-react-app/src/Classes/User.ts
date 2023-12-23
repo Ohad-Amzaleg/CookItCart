@@ -1,22 +1,22 @@
-import { BASE_URL } from "../constants";
-import axios from "axios";
+import { BASE_URL } from '../constants'
+import axios from 'axios'
 
 export default class User {
-  initialized: boolean = false;
-  userId: number = -1;
-  username: string = "";
-  email: string = "";
-  verified: boolean = false;
-  token: string = "";
+  initialized: boolean = false
+  userId: number = -1
+  username: string = ''
+  email: string = ''
+  verified: boolean = false
+  token: string = ''
 
   constructor(user?: any, token?: string) {
-    if (!user) return;
-    this.initialized = true;
-    this.userId = user.id;
-    this.username = user.username;
-    this.email = user.email;
-    this.verified = user.verified;
-    this.token = token ? token : "";
+    if (!user) return
+    this.initialized = true
+    this.userId = user.id
+    this.username = user.username
+    this.email = user.email
+    this.verified = user.verified
+    this.token = token ? token : ''
   }
 
   //@desc fetch user from database
@@ -26,13 +26,13 @@ export default class User {
     try {
       const res = await axios.get(`${BASE_URL}/api/users/current`, {
         withCredentials: true,
-      });
+      })
       if (res) {
-        return new User(res.data.user, res.data.token);
+        return new User(res.data.user, res.data.token)
       }
     } catch (err: any) {
-      console.log(err);
-      console.log("Error fetching current user");
+      console.log(err)
+      console.log('Error fetching current user')
     }
   }
 
@@ -41,30 +41,31 @@ export default class User {
   //@access private
   async userLogin(user: any) {
     try {
+      console.log('logging in user: ', user)
+      console.log('BASE_URL: ', BASE_URL)
       const res = await axios.post(
         `${BASE_URL}/api/users/login`,
         { user: user },
         { withCredentials: true }
-      );
-      return new User(res.data.user, res.data.token);
+      )
+      console.log('res: ', res)
+      return new User(res.data.user, res.data.token)
     } catch (err: any) {
-      throw err;
+      throw err
     }
   }
   //@desc register user
   //@return type string
   //@access private
-  async userRegister(user: any) {
+  async userRegister(formData: any) {
     try {
-      const res = await axios.post(
-        `${BASE_URL}/api/users/register`,
-        { user: user },
-        { withCredentials: true }
-      );
-      return res.data.message;
+      const res = await axios.post(`${BASE_URL}/api/users/register`, formData, {
+        withCredentials: true,
+      })
+      return res.data.message
     } catch (err: any) {
-      console.log(err);
-      return err.response.data.message;
+      console.log(err)
+      return err.response.data.message
     }
   }
 
@@ -78,11 +79,11 @@ export default class User {
         {
           withCredentials: true,
         }
-      );
-      return res.data.message;
+      )
+      return res.data.message
     } catch (err: any) {
-      console.log(err);
-      return err.response.data.message;
+      console.log(err)
+      return err.response.data.message
     }
   }
 
@@ -95,11 +96,11 @@ export default class User {
         `${BASE_URL}/api/users/update/${this.userId}`,
         { user: user },
         { withCredentials: true }
-      );
-      return new User(res.data.user);
+      )
+      return new User(res.data.user)
     } catch (err: any) {
-      console.log(err);
-      return err.response.data.message;
+      console.log(err)
+      return err.response.data.message
     }
   }
 
@@ -112,12 +113,12 @@ export default class User {
         `${BASE_URL}/api/auth/validate`,
         { code: code },
         { withCredentials: true }
-      );
-      this.verified = true;
-      return res.data.message;
+      )
+      this.verified = true
+      return res.data.message
     } catch (err: any) {
-      console.log(err);
-      return err.response.data.message;
+      console.log(err)
+      return err.response.data.message
     }
   }
 
@@ -130,11 +131,11 @@ export default class User {
         `${BASE_URL}/api/auth/resend`,
         {},
         { withCredentials: true }
-      );
-      return res.data.message;
+      )
+      return res.data.message
     } catch (err: any) {
-      console.log(err);
-      return err.response.data.message;
+      console.log(err)
+      return err.response.data.message
     }
   }
 }

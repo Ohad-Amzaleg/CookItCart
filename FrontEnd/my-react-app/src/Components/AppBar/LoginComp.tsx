@@ -4,7 +4,6 @@ import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
 import VerificationComp from "./VerificationComp";
 import Modal from "@mui/material/Modal";
-import CircularProgress from "@mui/joy/CircularProgress";
 import {
   CssBaseline,
   Avatar,
@@ -26,6 +25,7 @@ interface LoginCompProps {
   userData: User;
   showLogin: boolean;
   toggleLogin: () => void;
+  toggleSignUp: () => void;
   setPageLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const LoginComp = ({
@@ -33,6 +33,7 @@ const LoginComp = ({
   userData,
   showLogin,
   toggleLogin,
+  toggleSignUp,
   setPageLoading,
 }: LoginCompProps): JSX.Element => {
   const [formData, setFormData] = useState({
@@ -40,6 +41,10 @@ const LoginComp = ({
     password: "",
   });
   const [submitted, setSubmitted] = useState(false);
+
+  const handleFrogetPassword = () => {
+  
+  }
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -171,14 +176,18 @@ const LoginComp = ({
                   )}
                   <Grid container>
                     <Grid item xs>
-                      <Link href="#" variant="body2">
-                        Forgot password?
-                      </Link>
+                       <Button onClick={handleFrogetPassword} >
+                           Forgot password?
+                        </Button>
                     </Grid>
                     <Grid item>
-                      <Link href="#" variant="body2">
-                        {"Don't have an account? Sign Up"}
-                      </Link>
+                        <Button onClick={() => {
+                          toggleLogin();
+                          toggleSignUp();
+                        }} >
+                          Don't have an account? Sign Up
+                        </Button>
+                 
                     </Grid>
                   </Grid>
                 </Box>

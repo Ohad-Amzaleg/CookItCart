@@ -1,30 +1,30 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
-import LoginComp from "./LoginComp";
-import SignUpComp from "./SignUpComp";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import FilterMenu from "./FilterMenu";
-import User from "../../Classes/User";
+import * as React from 'react'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import Badge from '@mui/material/Badge'
+import MenuItem from '@mui/material/MenuItem'
+import Menu from '@mui/material/Menu'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import MailIcon from '@mui/icons-material/Mail'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import MoreIcon from '@mui/icons-material/MoreVert'
+import LoginComp from './LoginComp'
+import SignUpComp from './SignUpComp'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import FilterMenu from './FilterMenu'
+import User from '../../Classes/User'
 
 interface AppBarCompProps {
-  setUser: React.Dispatch<React.SetStateAction<any>>;
-  userData: User;
-  setFilterOptions?: React.Dispatch<React.SetStateAction<any>>;
-  filterOptions?: any;
-  setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
-  setPageLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setUser: React.Dispatch<React.SetStateAction<any>>
+  userData: User
+  setFilterOptions?: React.Dispatch<React.SetStateAction<any>>
+  filterOptions?: any
+  setLoading?: React.Dispatch<React.SetStateAction<boolean>>
+  setPageLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function PrimarySearchAppBar({
@@ -35,88 +35,96 @@ export default function PrimarySearchAppBar({
   setLoading,
   setPageLoading,
 }: AppBarCompProps) {
-  const [showSignUp, setShowSignUp] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const [isFilterMenuOpen, setFilterMenuOpen] = useState(false);
-  const navigate = useNavigate();
+  const [showSignUp, setShowSignUp] = useState(false)
+  const [showLogin, setShowLogin] = useState(false)
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
+  const isMenuOpen = Boolean(anchorEl)
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  const [isFilterMenuOpen, setFilterMenuOpen] = useState(false)
+  const navigate = useNavigate()
 
   // const toggleFilterMenu = () => {
   //   setFilterMenuOpen(!isFilterMenuOpen);
   // };
 
   const toggleSignUp = () => {
-    setShowSignUp(!showSignUp);
-  };
+    setShowSignUp(!showSignUp)
+  }
 
   const toggleLogin = () => {
-    setShowLogin(!showLogin);
-  };
+    setShowLogin(!showLogin)
+  }
 
   const handleProfileMenuOpen = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
+    setMobileMoreAnchorEl(null)
+  }
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
+    setAnchorEl(null)
+    handleMobileMenuClose()
+  }
 
   const handleMobileMenuOpen = (event: any) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+    setMobileMoreAnchorEl(event.currentTarget)
+  }
+
+  const handleMyAccount = () => {
+    navigate('/HomePage/myaccount')
+  }
 
   const handleLogout = () => {
     // Delete the token cookie by setting its expiration date to a date in the past
-    const expirationDate = new Date("2000-01-01"); // A date in the past
+    const expirationDate = new Date('2000-01-01') // A date in the past
 
-    document.cookie = `access-token=; expires=${expirationDate.toUTCString()}; path=/`;
+    document.cookie = `access-token=; expires=${expirationDate.toUTCString()}; path=/`
 
     // Redirect the user to login page
-    navigate("/");
-    window.location.reload();
-    toast.success(`${userData.username} Logged out`);
-  };
+    navigate('/')
+    window.location.reload()
+    toast.success(`${userData.username} Logged out`)
+  }
 
   // const handleFilterChange = (name: any, value: any) => {
   //   setFilterOptions((prev: any) => ({ ...prev, [name]: value }));
   //   console.log(name, value);
   // };
 
-  const menuId = "primary-search-account-menu";
+  const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: 'top',
+        horizontal: 'right',
       }}
       id={menuId}
       keepMounted
       transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: 'top',
+        horizontal: 'right',
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMyAccount}>My account</MenuItem>
       <MenuItem onClick={handleLogout}> Logout </MenuItem>
     </Menu>
-  );
+  )
 
   const renderPopUp = (
     <>
       {showSignUp && (
-        <SignUpComp showSignUp={showSignUp} toggleSignUp={toggleSignUp} />
+        <SignUpComp
+          showSignUp={showSignUp}
+          toggleSignUp={toggleSignUp}
+          toggleLogin={toggleLogin}
+          userData={userData}
+        />
       )}
       {showLogin && (
         <LoginComp
@@ -124,37 +132,30 @@ export default function PrimarySearchAppBar({
           userData={userData}
           showLogin={showLogin}
           toggleLogin={toggleLogin}
+          toggleSignUp={toggleSignUp}
           setPageLoading={setPageLoading}
         />
       )}
     </>
-  );
+  )
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
+  const mobileMenuId = 'primary-search-account-menu-mobile'
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: 'top',
+        horizontal: 'right',
       }}
       id={mobileMenuId}
       keepMounted
       transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: 'top',
+        horizontal: 'right',
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
       <MenuItem>
         <IconButton
           size="large"
@@ -166,18 +167,6 @@ export default function PrimarySearchAppBar({
           </Badge>
         </IconButton>
         <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
       </MenuItem>
       <MenuItem onClick={handleLogout}>
         <IconButton
@@ -192,7 +181,7 @@ export default function PrimarySearchAppBar({
         <p>Logout</p>
       </MenuItem>
     </Menu>
-  );
+  )
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -223,16 +212,7 @@ export default function PrimarySearchAppBar({
             </>
           ) : (
             <>
-              <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                <IconButton
-                  size="large"
-                  aria-label="show 4 new mails"
-                  color="inherit"
-                >
-                  <Badge badgeContent={4} color="error">
-                    <MailIcon />
-                  </Badge>
-                </IconButton>
+              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <IconButton
                   size="large"
                   aria-label="show 17 new notifications"
@@ -254,7 +234,7 @@ export default function PrimarySearchAppBar({
                   <AccountCircle />
                 </IconButton>
               </Box>
-              <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
                   size="large"
                   aria-label="show more"
@@ -274,5 +254,5 @@ export default function PrimarySearchAppBar({
       {renderMenu}
       {renderPopUp}
     </Box>
-  );
+  )
 }

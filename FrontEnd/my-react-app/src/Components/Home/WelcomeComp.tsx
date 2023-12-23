@@ -1,59 +1,111 @@
 import React from 'react';
-import { useSpring, animated } from 'react-spring';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import FastfoodIcon from '@mui/icons-material/Fastfood';
-import { styled } from "@mui/material/styles";
+import { makeStyles } from '@mui/styles';
+import background from '../../Assets/background.jpg';
+import foodImage1 from '../../Assets/food1.jpg'; // Import your food images
+import foodImage2 from '../../Assets/food2.jpg';
+import foodImage3 from '../../Assets/food3.jpg';
 
-// Define styles using MUI's `styled` utility
-const Container = styled('div')`
-  background-image: url('FrontEnd/my-react-app/src/Assets/background.jpg');
-  background-size: cover;
-  color: white;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  height: 100vh;
-  overflow: hidden;
-`;
+const foodImages = [foodImage1, foodImage2, foodImage3]; // Array of imported images
 
-const AnimatedIconButton = animated(IconButton);
+const getRandomPosition = () => {
+  const randomX = Math.random() * 90; // Random X position within the container
+  const randomY = Math.random() * 90; // Random Y position within the container
+  return { x: randomX, y: randomY };
+};
 
-function WelcomeComp() {
-  // Define animations using react-spring
-  const fadeIn = useSpring({ opacity: 1, from: { opacity: 0 }, delay: 500 });
-  const slideIn = useSpring({ transform: 'translateX(0)', from: { transform: 'translateX(-100%)' }, delay: 800 });
+const getRandomRotation = () => {
+  const randomRotation = Math.random() * 360; // Random rotation angle
+  return randomRotation;
+};
+const useStyles = makeStyles({
+  welcomeContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: '100px',
+    borderRadius: '10px',
+    background: 'linear-gradient(45deg, #fd6e6a, #ffcb80)',
+    boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1)',
+    maxWidth: '100vx',
+    maxHeight: '100vh',
+    margin: '0 auto',
+    color: '#fff',
+  },
+  welcomeHeading: {
+    fontSize: '3rem',
+    fontWeight: 'bold',
+    marginBottom: '20px',
+    textShadow: '2px 2px 4px rgba(0,0,0,0.2)',
+  },
+  welcomeText: {
+     flex: '1 1 80%', // Take 50% of the available space
+    padding: '20px',
+    fontSize: '1.6rem',
+    textAlign: 'center',
+  },
+  waveHand: {
+    fontSize: '2.5rem',
+    animation: '$wave 2s infinite',
+  },
+    foodImagesContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: '10px',
+  },
+  foodImage: {
+    flexDirection: 'row',
+    alignItems: 'center',
+     maxWidth: '20%',
+    margin: '10px',
+  },
+  '@keyframes wave': {
+    '0%': { transform: 'rotate(0deg)' },
+    '25%': { transform: 'rotate(20deg)' },
+    '50%': { transform: 'rotate(0deg)' },
+    '75%': { transform: 'rotate(-20deg)' },
+    '100%': { transform: 'rotate(0deg)' },
+  },
+}) as any;
 
-  return (
-    <Container>
-      <animated.div style={fadeIn}>
-        <FastfoodIcon style={{ fontSize: 80, marginBottom: '1rem' }} />
-        <Typography variant="h4" gutterBottom>
-          Welcome to Foodie Delights
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          Explore a world of delicious culinary experiences.
-        </Typography>
-      </animated.div>
-
-      <animated.div style={slideIn}>
-        <Typography variant="body2" style={{ marginTop: '2rem' }}>
-          Let's get started!
-        </Typography>
-        <AnimatedIconButton
-          aria-label="Get Started"
-          color="primary"
-          style={{ marginTop: '1rem' }}
-        >
-          <ArrowForwardIcon fontSize="large" />
-        </AnimatedIconButton>
-      </animated.div>
-    </Container>
-  );
+interface WelcomeProps {
+  username: string;
 }
 
-export default WelcomeComp;
+const Welcome: React.FC<WelcomeProps> = ({ username }) => {
+  const classes = useStyles();
+
+  return (
+      <div className={classes.welcomeContainer}>
+      <h1 className={classes.welcomeHeading}>Welcome, {username}!</h1>
+      <p className={classes.welcomeText}>
+        Get ready to explore a world of delicious meals and exciting culinary experiences.
+      </p>
+      <span role="img" aria-label="Wave hand" className={classes.waveHand}>
+        👋
+      </span>
+      <div className={classes.foodImagesContainer}>
+
+             {foodImages.map((image, index) => {
+               const rotation = getRandomRotation();
+               return (
+                 <img
+                 key={index}
+                 src={image}
+                 alt="Food"
+                 className={classes.foodImage}
+                 style={{
+                   transform: `rotate(${rotation}deg)`,
+                  }}
+                  />
+                  );
+                })}
+                
+                </div>
+    </div>
+  );
+};
+
+export default Welcome;
