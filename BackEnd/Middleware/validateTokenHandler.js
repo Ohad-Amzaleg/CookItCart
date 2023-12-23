@@ -1,5 +1,7 @@
 const { sign, verify } = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
+const users = require('../Models/User')
+const { userExist } = require('../Util/util')
 
 const createTokens = (user) => {
   const accessToken = sign(
@@ -26,9 +28,15 @@ const validateToken = asyncHandler(async (req, res, next) => {
     if (err) {
       return res.status(401).json({ error: 'User is unauthorized' })
     }
-    req.user = decoded
-    req.token = accessToken
-    next()
+    userExist(decoded.email, users)
+      .then((user) => {
+        req.user = user
+        req.token = accessToken
+        next()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   })
 })
 
