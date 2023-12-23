@@ -17,6 +17,7 @@ const createTokens = (user) => {
 const validateToken = asyncHandler(async (req, res, next) => {
   const userToken = req.user ? req.user.token : null
   const accessToken = req.cookies['access-token'] || userToken
+  console.log(accessToken)
 
   if (!accessToken) {
     return
