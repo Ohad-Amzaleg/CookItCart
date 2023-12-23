@@ -107,12 +107,10 @@ const MyAccountComp = ({ userData }: MyAccountCompProps) => {
 
   return (
     <div className={classes.root}>
-      <div>
-        <HomeIcon />
-        <Button className={classes.returnHomeButton} onClick={handleReturnHome}>
-          Return Home
-        </Button>
-      </div>
+      <HomeIcon />
+      <Button className={classes.returnHomeButton} onClick={handleReturnHome}>
+        Return Home
+      </Button>
       <div className={classes.section}>
         <Typography variant="h4">Account Information</Typography>
         {/* Display user information here */}
