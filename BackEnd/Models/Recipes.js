@@ -9,8 +9,8 @@ const recipesSchema = new mongoose.Schema({
   instructions: { type: Array, required: true },
   video: { type: String, required: true },
   category: { type: String, required: true },
-  rating: { type: Schema.Types.Mixed, required: true },
-  nutrition: { type: Schema.Types.Mixed, required: true },
+  rating: { type: mongoose.Schema.Types.Mixed, required: true },
+  nutrition: { type: mongoose.Schema.Types.Mixed, required: true },
   timeToCook: { type: String, required: true },
 })
 
