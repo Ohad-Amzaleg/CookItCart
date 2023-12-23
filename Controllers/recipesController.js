@@ -5,7 +5,7 @@ const recipes = require('../Models/Recipes')
 //@route    GET /api/food
 //@access   Public
 const getFood = asyncHandler(async (req, res) => {
-  const { cookingTime, search } = req.query
+  let { cookingTime, search } = req.query
   search = search ? search : 'pasta'
   let query = { name: { $regex: search, $options: 'i' } }
   if (cookingTime) {
