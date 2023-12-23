@@ -1,6 +1,7 @@
 import { BASE_URL } from '../constants'
 import axios from 'axios'
 import FoodItem from './FoodItem'
+import { th } from 'date-fns/locale'
 
 export default class Schedule {
   private email: string = ''
@@ -51,6 +52,8 @@ export default class Schedule {
         { newEvents: events, newNutrients: nutrients },
         { withCredentials: true }
       )
+      this.events = events
+      this.weeklyNutrition = nutrients
     } catch (err) {
       throw new Error(`Error updating schedule: ${err}`)
     }

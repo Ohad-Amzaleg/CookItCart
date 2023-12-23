@@ -54,7 +54,7 @@ const updateSchedule = asyncHandler(async (req, res) => {
     await currentSchedule.save()
     return res.status(200).json({ schedule: currentSchedule })
   } catch (error) {
-    res.status(400).json({ error: 'Error saving schedule' })
+    res.status(400).json({ error: 'Error saving schedule' ,})
   }
 })
 
