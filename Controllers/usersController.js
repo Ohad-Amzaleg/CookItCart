@@ -60,12 +60,11 @@ const loginUser = asyncHandler(async (req, res) => {
   //Create Token for the current user
   const accesToken = createTokens(user)
   //Set the token in the cookie
-  res.cookie(
-    'access-token',
-    accesToken,
-    { maxAge: 60 * 60 * 24 * 30 * 1000 },
-    { path: '/', domain: 'http://cookitcart.site' }
-  )
+  res.cookie('access-token', accesToken, {
+    maxAge: 60 * 60 * 24 * 30 * 1000,
+    path: '/',
+    domain: 'cookitcart.site',
+  })
 
   //Send the user data to the client
   res.status(200).json({ user: user, token: accesToken })
