@@ -25,5 +25,4 @@ yarn-error.log*
 =======
 BackEnd/Archive.zip
 >>>>>>> origin/Backend
-FrontEnd/node_modules/
-BackEnd//node_modules/
+node_modules/
