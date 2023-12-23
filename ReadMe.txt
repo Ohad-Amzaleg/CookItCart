@@ -1,4 +1,4 @@
-#CookItCart
+# CookItCart
 
 This project is a web application created with React (TypeScript) in the frontend and Node.js in the backend. It allows users to select meals, add them to their schedule, and automatically generate an ingredients cart based on the selected meals.
 
@@ -12,27 +12,26 @@ This project is a web application created with React (TypeScript) in the fronten
 
 ## Technologies Used
 
-- **Frontend:**
+### Frontend:
+- React
+- TypeScript
+- AWS Amplify (hosting)
 
-  - React
-  - TypeScript
-  - AWS Amplify (hosting)
-
-- **Backend:**
-  - Node.js
-  - Express.js
-  - MongoDB (database)
-  - Elastic Beanstalk (deployment)
+### Backend:
+- Node.js
+- Express.js
+- MongoDB (database)
+- Elastic Beanstalk (deployment)
 
 ## Installation
 
-1. Clone the repository:
+1. **Clone the repository:**
 
    ```bash
    git clone https://github.com/yourusername/projectname.git
    ```
 
-2. Navigate to the frontend and backend directories and install dependencies:
+2. **Navigate to the frontend and backend directories and install dependencies:**
 
    ```bash
    cd frontend
@@ -42,9 +41,9 @@ This project is a web application created with React (TypeScript) in the fronten
    npm install
    ```
 
-3. Set up the MongoDB connection in the backend by adding your MongoDB URI in the configuration file.
+3. **Set up the MongoDB connection in the backend by adding your MongoDB URI in the configuration file.**
 
-4. Start the frontend and backend servers:
+4. **Start the frontend and backend servers:**
 
    ```bash
    # Frontend
@@ -56,7 +55,9 @@ This project is a web application created with React (TypeScript) in the fronten
    npm start
    ```
 
-5. Access the application in your browser at `http://localhost:3000` for the frontend and `http://localhost:8080` for the backend.
+5. **Access the application in your browser at:**
+   - Frontend: `http://localhost:3000`
+   - Backend: `http://localhost:8080`
 
 ## Usage
 
@@ -65,7 +66,7 @@ This project is a web application created with React (TypeScript) in the fronten
 
 ## Deployment
 
-- **Frontend (AWS Amplify):** The frontend can be deployed to AWS Amplify. Configure Amplify with your GitHub repository and set up continuous deployment.
+- **Frontend (AWS Amplify):** Deploy the frontend to AWS Amplify. Configure Amplify with your GitHub repository and set up continuous deployment.
 - **Backend (Elastic Beanstalk):** Deploy the backend to Elastic Beanstalk by configuring the environment and deploying the Node.js application.
 
 Feel free to adjust the sections, add more details, or include specific commands depending on your project's structure and requirements!
