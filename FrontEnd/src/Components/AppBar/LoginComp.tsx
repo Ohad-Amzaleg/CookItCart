@@ -42,7 +42,7 @@ const LoginComp = ({
   const [submitted, setSubmitted] = useState(false);
 
   const handleFrogetPassword = () => {
-
+    console.log('Forget Password');
   }
 
   const handleInputChange = (e: any) => {
