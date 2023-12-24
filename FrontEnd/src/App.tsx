@@ -38,13 +38,12 @@ function App() {
     if (!user.initialized) {
       user.getCurrent().then((res) => {
         if (res) {
-          setUser(res)
-          setSchedule(new Schedule(res.email))
+          setUser(res);
+          setSchedule(new Schedule(res.email));
         }
-      })
+      });
     }
-  }, [])
-
+  }, []);
   //Fetch food data from api
   useEffect(() => {
     foodData.fetchData(filterOptions).then((res) => {
